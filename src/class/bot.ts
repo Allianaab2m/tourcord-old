@@ -21,36 +21,11 @@ class Cogs {
     }
 }
 
-type embedType = 'error' | 'success' | 'info'
-
-class Utils {
-    createEmbedObject (type: embedType, options: discord.MessageEmbedOptions) {
-        const embed = new discord.MessageEmbed(options)
-        switch (type) {
-        case 'error':
-            embed.setColor('#ff0000')
-            embed.setTitle('エラー')
-            break
-        case 'success':
-            embed.setColor('#00ff00')
-            break
-        case 'info':
-            embed.setColor('#0088ff')
-            break
-        default:
-            break
-        }
-        return embed
-    }
-}
-
 export class Bot extends discord.Client {
     public cogs
-    public utils
     public constructor (options: discord.ClientOptions) {
         super(options)
         this.cogs = new Cogs()
-        this.utils = new Utils()
     }
 
     public handler(commandName: string, bot: Bot, message: discord.Message, args?: string[]) {
