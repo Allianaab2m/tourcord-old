@@ -1,14 +1,26 @@
 import * as discord from 'discord.js'
 import * as dotenv from 'dotenv'
+import { Bot } from './class/bot'
 
 dotenv.config()
 
-const client = new discord.Client({
+const prefix = '!'
+
+const bot = new Bot({
     intents: 32767
 })
 
-client.on('ready', () => {
-    console.log('Bot準備完了 - Tourcord')
+bot.login(process.env.TOKEN)
+
+bot.on('ready', async () => {
+    console.log('Bot起動中')
+    if (bot.user) {
+        console.log(bot.user.tag + 'としてログイン中')
+    }
+    bot.cogs.init()
 })
 
-client.login(process.env.DISCORD_TOKEN)
+bot.on('messageCreate', async (message: discord.Message) => {
+    const [command, ...args] = message.content.slice(prefix.length).split(' ')
+    bot.handler(command, bot, message, args)
+})
