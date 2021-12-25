@@ -4,9 +4,10 @@ import { Bot } from './class/bot'
 
 dotenv.config()
 
-const prefix = '!'
-
 const bot = new Bot({
+    admin: 'tc!',
+    member: 'tc/'
+},{
     intents: 32767
 })
 
@@ -17,10 +18,10 @@ bot.on('ready', async () => {
     if (bot.user) {
         console.log(bot.user.tag + 'としてログイン中')
     }
-    bot.cogs.init()
+    bot.adminCogs.init()
+    bot.memberCogs.init()
 })
 
 bot.on('messageCreate', async (message: discord.Message) => {
-    const [command, ...args] = message.content.slice(prefix.length).split(' ')
-    bot.handler(command, bot, message, args)
+    bot.handler(bot, message)
 })
