@@ -618,6 +618,13 @@
   resolved "https://registry.npmjs.org/@tootallnate/once/-/once-2.0.0.tgz"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
+"@types/hashids@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@types/hashids/-/hashids-2.0.1.tgz#11d354156c0c171577da152691b90131c40a619c"
+  integrity sha512-QSUvB8ILsowuiqsaIlftLoSc9Xk87CoGLUBX0mFbk/KjCkAUI/FlEWffWY9rUOtnj6TZORvMaSRuoEb80VGUPQ==
+  dependencies:
+    hashids "*"
+
 "@types/json-schema@^7.0.9":
   version "7.0.9"
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.9.tgz"
@@ -2320,6 +2327,11 @@ has@^1.0.3:
   integrity sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==
   dependencies:
     function-bind "^1.1.1"
+
+hashids@*, hashids@^2.2.10:
+  version "2.2.10"
+  resolved "https://registry.yarnpkg.com/hashids/-/hashids-2.2.10.tgz#82f45538cf03ce73e31b78d1abe78d287cf760c4"
+  integrity sha512-nXnYums7F8B5Y+GSThutLPlKMaamW1yjWNZVt0WModiJfdjaDZHnhYTWblS+h1OoBx3yjwiBwxldPP3nIbFSSA==
 
 hook-std@^2.0.0:
   version "2.0.0"
