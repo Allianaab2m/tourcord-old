@@ -104,7 +104,7 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         adminRole = await message.guild.roles.create({
             name: 'tc-Admin',
             color: 'YELLOW',
-            position: 0,
+            position: 3,
             mentionable: true
         })
     }
@@ -166,7 +166,7 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         leaderRole = await message.guild.roles.create({
             name: 'tc-Leader',
             color: 'GREEN',
-            position: 1,
+            position: 2,
         })
     }
     setupStatusEmbedEdit('success', 4, statusMessage)
@@ -231,7 +231,7 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         memberRole = await message.guild.roles.create({
             name: 'tc-Member',
             color: 'BLUE',
-            position: 2,
+            position: 1,
         })
     }
     setupStatusEmbedEdit('success', 6, statusMessage)
