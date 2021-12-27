@@ -1,6 +1,8 @@
 import * as discord from 'discord.js'
 import * as fs from 'fs/promises'
 
+import { maxTeams } from 'src/types'
+
 class Cogs {
     cogsDir
     constructor(cogsDir: string) {
@@ -39,6 +41,15 @@ export class Bot extends discord.Client {
         this.prefixes = prefixes
         this.adminCogs = new Cogs('admin')
         this.memberCogs = new Cogs('member')
+    }
+
+    public returnMatchTimesPerTeamsArray(maxTeam: maxTeams) {
+        const matchTimesPerTeamsArray: boolean[] = []
+        const matchTimesPerTeams = maxTeam.toString(2)
+        for (let i = 1; i < matchTimesPerTeams.length; i++) {
+            matchTimesPerTeamsArray.push(false)
+        }
+        return matchTimesPerTeamsArray
     }
 
     public handler(bot: Bot, message: discord.Message) {
