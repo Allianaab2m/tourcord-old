@@ -119,15 +119,6 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         .find(channel => channel.name === adminCategoryName && channel.type === 'GUILD_CATEGORY')
 
     if (adminCategory) {
-        message.guild.channels.create(adminTextName, {
-            type: 'GUILD_TEXT',
-            parent: adminCategory.id,
-        })
-        message.guild.channels.create(adminVoiceName, {
-            type: 'GUILD_VOICE',
-            parent: adminCategory.id,
-        })
-
         setupStatusEmbedEdit('success', 3, statusMessage)
     } else {
         const adminCategory = await message.guild.channels.create(
@@ -180,15 +171,6 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         .find(channel => channel.name === leaderCategoryName && channel.type === 'GUILD_CATEGORY')
 
     if (leaderCategory) {
-        message.guild.channels.create(leaderTextName, {
-            type: 'GUILD_TEXT',
-            parent: leaderCategory.id,
-        })
-        message.guild.channels.create(leaderVoiceName, {
-            type: 'GUILD_VOICE',
-            parent: leaderCategory.id,
-        })
-
         setupStatusEmbedEdit('success', 5, statusMessage)
     } else {
         const leaderCategory = await message.guild.channels.create(
