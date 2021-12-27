@@ -3,3 +3,4 @@ node_modules
 build/
 src/commands/*/ping.ts
 docs
+data/
