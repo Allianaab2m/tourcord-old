@@ -47,12 +47,16 @@ export class Bot extends discord.Client {
         let args: string[]
         let cogs
 
-        if (message.content.startsWith(this.prefixes.admin)) {
+        if (message.content.startsWith(this.prefixes.admin) && message.member?.permissions.has('ADMINISTRATOR')) {
             [commandName, ...args] = message.content.slice(this.prefixes.admin.length).split(' ')
             cogs = this.adminCogs
-        } else if (message.member?.permissions.has('ADMINISTRATOR')) {
-            [commandName, ...args] = message.content.slice(this.prefixes.admin.length).split(' ')
-            cogs = this.adminCogs
+        } else if (message.content.startsWith(this.prefixes.admin)) {
+            if (message.member?.roles.cache.find(role => role.name === 'tc-Admin')) {
+                [commandName, ...args] = message.content.slice(this.prefixes.admin.length).split(' ')
+                cogs = this.adminCogs
+            } else {
+                return
+            }
         } else if (message.content.startsWith(this.prefixes.member)) {
             [commandName, ...args] = message.content.slice(this.prefixes.member.length).split(' ')
             cogs = this.memberCogs

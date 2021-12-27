@@ -104,7 +104,7 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         adminRole = await message.guild.roles.create({
             name: 'tc-Admin',
             color: 'YELLOW',
-            position: 0,
+            position: 3,
             mentionable: true
         })
     }
@@ -119,15 +119,6 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         .find(channel => channel.name === adminCategoryName && channel.type === 'GUILD_CATEGORY')
 
     if (adminCategory) {
-        message.guild.channels.create(adminTextName, {
-            type: 'GUILD_TEXT',
-            parent: adminCategory.id,
-        })
-        message.guild.channels.create(adminVoiceName, {
-            type: 'GUILD_VOICE',
-            parent: adminCategory.id,
-        })
-
         setupStatusEmbedEdit('success', 3, statusMessage)
     } else {
         const adminCategory = await message.guild.channels.create(
@@ -147,14 +138,12 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
             }
         )
 
-        message.guild.channels.create(adminTextName, {
+        adminCategory.createChannel(adminTextName, {
             type: 'GUILD_TEXT',
-            parent: adminCategory.id,
         })
 
-        message.guild.channels.create(adminVoiceName, {
+        adminCategory.createChannel(adminVoiceName, {
             type: 'GUILD_VOICE',
-            parent: adminCategory.id,
         })
 
         setupStatusEmbedEdit('success', 3, statusMessage)
@@ -166,7 +155,7 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         leaderRole = await message.guild.roles.create({
             name: 'tc-Leader',
             color: 'GREEN',
-            position: 1,
+            position: 2,
         })
     }
     setupStatusEmbedEdit('success', 4, statusMessage)
@@ -180,15 +169,6 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         .find(channel => channel.name === leaderCategoryName && channel.type === 'GUILD_CATEGORY')
 
     if (leaderCategory) {
-        message.guild.channels.create(leaderTextName, {
-            type: 'GUILD_TEXT',
-            parent: leaderCategory.id,
-        })
-        message.guild.channels.create(leaderVoiceName, {
-            type: 'GUILD_VOICE',
-            parent: leaderCategory.id,
-        })
-
         setupStatusEmbedEdit('success', 5, statusMessage)
     } else {
         const leaderCategory = await message.guild.channels.create(
@@ -212,14 +192,12 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
             }
         )
 
-        message.guild.channels.create(leaderTextName, {
+        leaderCategory.createChannel(leaderTextName, {
             type: 'GUILD_TEXT',
-            parent: leaderCategory.id,
         })
 
-        message.guild.channels.create(leaderVoiceName, {
+        leaderCategory.createChannel(leaderVoiceName, {
             type: 'GUILD_VOICE',
-            parent: leaderCategory.id,
         })
 
         setupStatusEmbedEdit('success', 5, statusMessage)
@@ -231,7 +209,7 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
         memberRole = await message.guild.roles.create({
             name: 'tc-Member',
             color: 'BLUE',
-            position: 2,
+            position: 1,
         })
     }
     setupStatusEmbedEdit('success', 6, statusMessage)
@@ -262,6 +240,6 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
     configData.leaderRoleId = leaderRole.id
     configData.memberRoleId = memberRole.id
 
-    fs.writeFileSync(`./data/${message.guildId}.json`, JSON.stringify(configData))
+    fs.writeFileSync(`./data/${message.guildId}/config.json`, JSON.stringify(configData))
     setupStatusEmbedEdit('success', 8, statusMessage)
 }
