@@ -22,7 +22,10 @@ export const makeTournament = async (bot: Bot, message: discord.Message, args: s
     }
 
     if (fs.existsSync(`./data/${message.guildId}/tournament.csv`)) {
-        message.channel.send('既にアクティブなトーナメントが存在します。')
+        const embed = new discord.MessageEmbed()
+            .setTitle('トーナメント作成失敗')
+            .setDescription('トーナメントが既に作成されています。')
+        message.channel.send({embeds: [embed]})
     } else {
         const config: configJSON = JSON.parse(fs.readFileSync(`./data/${message.guildId}/config.json`, 'utf8'))
         const matchTimesPerTeams = bot.returnMatchTimesPerTeamsArray(config.maxTeam)
