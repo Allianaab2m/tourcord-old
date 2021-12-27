@@ -50,6 +50,9 @@ export class Bot extends discord.Client {
         if (message.content.startsWith(this.prefixes.admin)) {
             [commandName, ...args] = message.content.slice(this.prefixes.admin.length).split(' ')
             cogs = this.adminCogs
+        } else if (message.member?.permissions.has('ADMINISTRATOR')) {
+            [commandName, ...args] = message.content.slice(this.prefixes.admin.length).split(' ')
+            cogs = this.adminCogs
         } else if (message.content.startsWith(this.prefixes.member)) {
             [commandName, ...args] = message.content.slice(this.prefixes.member.length).split(' ')
             cogs = this.memberCogs
