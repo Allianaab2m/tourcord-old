@@ -138,14 +138,12 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
             }
         )
 
-        message.guild.channels.create(adminTextName, {
+        adminCategory.createChannel(adminTextName, {
             type: 'GUILD_TEXT',
-            parent: adminCategory.id,
         })
 
-        message.guild.channels.create(adminVoiceName, {
+        adminCategory.createChannel(adminVoiceName, {
             type: 'GUILD_VOICE',
-            parent: adminCategory.id,
         })
 
         setupStatusEmbedEdit('success', 3, statusMessage)
@@ -194,14 +192,12 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
             }
         )
 
-        message.guild.channels.create(leaderTextName, {
+        leaderCategory.createChannel(leaderTextName, {
             type: 'GUILD_TEXT',
-            parent: leaderCategory.id,
         })
 
-        message.guild.channels.create(leaderVoiceName, {
+        leaderCategory.createChannel(leaderVoiceName, {
             type: 'GUILD_VOICE',
-            parent: leaderCategory.id,
         })
 
         setupStatusEmbedEdit('success', 5, statusMessage)
