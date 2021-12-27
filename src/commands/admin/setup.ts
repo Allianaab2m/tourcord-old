@@ -262,6 +262,6 @@ export const setup = async (bot: Bot, message: discord.Message, args: string[]) 
     configData.leaderRoleId = leaderRole.id
     configData.memberRoleId = memberRole.id
 
-    fs.writeFileSync(`./data/${message.guildId}.json`, JSON.stringify(configData))
+    fs.writeFileSync(`./data/${message.guildId}/config.json`, JSON.stringify(configData))
     setupStatusEmbedEdit('success', 8, statusMessage)
 }
