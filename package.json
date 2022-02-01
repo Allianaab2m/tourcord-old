@@ -33,6 +33,7 @@
         "semantic-release": "^19.0.2"
     },
     "devDependencies": {
+        "@sapphire/cli": "^1.1.0",
         "@sapphire/prettier-config": "^1.2.9",
         "@sapphire/ts-config": "^3.1.8",
         "@types/node": "^17.0.10",
