@@ -14,7 +14,7 @@ model Team {
     id                Int    @id @default(autoincrement())
     guildId           String @db.VarChar(18)
     teamName          String @db.VarChar(32)
-    teamId            String
+    teamId            String @db.VarChar(6)
     roleId            String @db.VarChar(18)
     categoryChannelId String @db.VarChar(18)
     textChannelId     String @db.VarChar(18)
