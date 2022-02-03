@@ -23,3 +23,15 @@ model Team {
 
     @@map("team")
 }
+
+model GuildConf {
+    id             Int     @id @default(autoincrement())
+    guildId        String  @db.VarChar(18)
+    verify         Boolean @default(false) @db.TinyInt()
+    maxTeamMembers Int     @default(5) @db.Int()
+    maxEntryTeams  Int     @default(64) @db.Int()
+    memberRoleId   String  @default("") @db.VarChar(18)
+    adminRoleId    String  @default("") @db.VarChar(18)
+
+    @@map("guild")
+}
