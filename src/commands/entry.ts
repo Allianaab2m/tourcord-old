@@ -3,8 +3,7 @@ import type { Args } from '@sapphire/framework';
 import { SubCommandPluginCommand, SubCommandPluginCommandOptions } from '@sapphire/plugin-subcommands';
 import { Message, MessageEmbed } from 'discord.js';
 import { Team } from '../lib/team';
-import { PrismaClient } from '@prisma/client';
-import { customAlphabet } from 'nanoid';
+import { prismaTeamCreate } from '../lib/utils';
 
 @ApplyOptions<SubCommandPluginCommandOptions>({
 	description: 'トーナメントにエントリーします。\n`tc!entry [チーム名]`',
@@ -23,30 +22,18 @@ export class UserCommand extends SubCommandPluginCommand {
 		await message.member?.roles.add(createdTeam.role);
 		createdTeam.teamMembersId.push(message.author.id);
 
-		// チームIDの作成
-		const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ', 6);
-		const teamId = nanoid();
+		try {
+			await prismaTeamCreate(message.guild.id, createdTeam);
+		} catch (error) {
+			const errEmbed = new MessageEmbed().setColor('#ff0000').setTitle('データベースとの通信に失敗しました。').setDescription(`${error}`);
 
-		const prisma = new PrismaClient();
-		await prisma.$connect();
-		await prisma.team.create({
-			data: {
-				teamId: teamId,
-				guildId: message.guild.id,
-				teamName: createdTeam.teamName,
-				roleId: createdTeam.role.id,
-				categoryChannelId: createdTeam.categoryChannel.id,
-				textChannelId: createdTeam.textChannel.id,
-				voiceChannelId: createdTeam.voiceChannel.id,
-				teamMembersId: createdTeam.teamMembersId.toString()
-			}
-		});
-		await prisma.$disconnect();
+			return await waitMessage.edit({ embeds: [errEmbed] });
+		}
 
 		const embed = new MessageEmbed()
 			.setTitle('エントリー完了')
 			.addField('チーム名', createdTeam.teamName)
-			.addField('ID', teamId)
+			.addField('ID', createdTeam.teamId)
 			.addField('チームメンバーを招待するには？', '`tc!invite @メンション`を実行し，チームメンバーにIDを送信してください。')
 			.setColor('#00ff00');
 

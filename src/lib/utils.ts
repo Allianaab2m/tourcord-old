@@ -1,6 +1,8 @@
+import { PrismaClient } from '@prisma/client';
 import { send } from '@sapphire/plugin-editable-commands';
 import { Message, MessageEmbed } from 'discord.js';
 import { RandomLoadingMessage } from './constants';
+import type { Team } from './team';
 
 /**
  * Picks a random item from an array
@@ -19,4 +21,22 @@ export function pickRandom<T>(array: readonly T[]): T {
  */
 export function sendLoadingMessage(message: Message): Promise<typeof message> {
 	return send(message, { embeds: [new MessageEmbed().setDescription(pickRandom(RandomLoadingMessage)).setColor('#FF0000')] });
+}
+
+export async function prismaTeamCreate(guildId: string, team: Team): Promise<void> {
+	const prisma = new PrismaClient();
+	await prisma.$connect();
+	await prisma.team.create({
+		data: {
+			teamId: team.teamId,
+			guildId: guildId,
+			teamName: team.teamName,
+			roleId: team.role.id,
+			categoryChannelId: team.categoryChannel.id,
+			textChannelId: team.textChannel.id,
+			voiceChannelId: team.voiceChannel.id,
+			teamMembersId: team.teamMembersId.toString()
+		}
+	});
+	await prisma.$disconnect();
 }
