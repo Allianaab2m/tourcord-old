@@ -1,5 +1,7 @@
 import type { TextChannel, VoiceChannel, CategoryChannel, Role, Guild } from 'discord.js';
+import { customAlphabet } from 'nanoid';
 
+const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNPQRSTUVWXYZ', 6);
 export class Team {
 	constructor(
 		public teamName: string,
@@ -34,7 +36,9 @@ export class Team {
 			type: 'GUILD_VOICE'
 		});
 
-		const team = new Team(teamName, role.id, role, categoryChannel, textChannel, voiceChannel, []);
+		const teamId = nanoid();
+
+		const team = new Team(teamName, teamId, role, categoryChannel, textChannel, voiceChannel, []);
 
 		return team;
 	}
