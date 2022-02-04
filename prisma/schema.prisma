@@ -26,7 +26,7 @@ model Team {
 
 model GuildConf {
     id             Int     @id @default(autoincrement())
-    guildId        String  @db.VarChar(18)
+    guildId        String  @unique @db.VarChar(18)
     init           Boolean @default(false) @db.TinyInt()
     maxTeamMembers Int     @default(5) @db.Int()
     maxEntryTeams  Int     @default(64) @db.Int()

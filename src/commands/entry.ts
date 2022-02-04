@@ -8,7 +8,7 @@ import { prismaTeamCreate } from '../lib/utils';
 @ApplyOptions<SubCommandPluginCommandOptions>({
 	description: 'トーナメントにエントリーします。\n`tc!entry [チーム名]`',
 	aliases: ['e'],
-	preconditions: ['inGuild']
+	preconditions: ['inGuild', 'isInitialized']
 })
 export class UserCommand extends SubCommandPluginCommand {
 	public async messageRun(message: Message, args: Args) {

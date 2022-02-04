@@ -40,3 +40,29 @@ export async function prismaTeamCreate(guildId: string, team: Team): Promise<voi
 	});
 	await prisma.$disconnect();
 }
+
+export async function prismaGuildConfCreate(
+	guildId: string,
+	data: {
+		guildId: string;
+		init: boolean;
+		maxEntryTeams: number;
+		maxTeamMembers: number;
+		memberRoleId: string;
+		adminRoleId: string;
+	}
+): Promise<void> {
+	const prisma = new PrismaClient();
+	await prisma.$connect();
+	await prisma.guildConf.create({
+		data: {
+			guildId: guildId,
+			init: true,
+			maxEntryTeams: data.maxEntryTeams,
+			maxTeamMembers: data.maxTeamMembers,
+			memberRoleId: data.memberRoleId,
+			adminRoleId: data.adminRoleId
+		}
+	});
+	await prisma.$disconnect();
+}
