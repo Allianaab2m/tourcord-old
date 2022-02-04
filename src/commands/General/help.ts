@@ -5,7 +5,8 @@ import { Message, MessageEmbed } from 'discord.js';
 
 @ApplyOptions<SubCommandPluginCommandOptions>({
 	description: 'コマンドの使用方法を表示します。\n`tc!help [コマンド名]`',
-	aliases: ['help', 'h']
+	aliases: ['help', 'h'],
+	preconditions: ['isInitialized']
 })
 export class UserCommand extends SubCommandPluginCommand {
 	public async messageRun(message: Message, args: Args) {
