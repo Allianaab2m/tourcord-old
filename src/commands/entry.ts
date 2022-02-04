@@ -3,7 +3,7 @@ import type { Args } from '@sapphire/framework';
 import { SubCommandPluginCommand, SubCommandPluginCommandOptions } from '@sapphire/plugin-subcommands';
 import { Message, MessageEmbed } from 'discord.js';
 import { Team } from '../lib/team';
-import { prismaTeamCreate } from '../lib/utils';
+import { prismaTeamCreate, prismaGuildConfRead } from '../lib/utils';
 
 @ApplyOptions<SubCommandPluginCommandOptions>({
 	description: 'トーナメントにエントリーします。\n`tc!entry [チーム名]`',
@@ -16,10 +16,16 @@ export class UserCommand extends SubCommandPluginCommand {
 		const waitMessage = await message.reply({ embeds: [waitMessageEmbed] });
 		const teamName = await args.pick('string').catch(() => undefined);
 		if (!teamName) return await waitMessage.edit('チーム名を指定してください。');
-		if (message.guild === null) return;
+		if (message.guild === null) return; // Preconditionで指定してるけど念の為
+
+		const guildConf = await prismaGuildConfRead(message.guild.id);
+		if (guildConf === null) return;
+
+		const memberRole = message.guild.roles.cache.find((r) => r.id === guildConf.memberRoleId);
+		if (memberRole === undefined) return;
 
 		const createdTeam = await Team.init(teamName, message.guild);
-		await message.member?.roles.add(createdTeam.role);
+		await message.member?.roles.add([createdTeam.role, memberRole]);
 		createdTeam.teamMembersId.push(message.author.id);
 
 		try {

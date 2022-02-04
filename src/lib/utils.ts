@@ -66,3 +66,15 @@ export async function prismaGuildConfCreate(
 	});
 	await prisma.$disconnect();
 }
+
+export async function prismaGuildConfRead(guildId: string) {
+	const prisma = new PrismaClient();
+	await prisma.$connect();
+	const guildConf = await prisma.guildConf.findFirst({
+		where: {
+			guildId: guildId,
+			init: true
+		}
+	});
+	return guildConf;
+}
