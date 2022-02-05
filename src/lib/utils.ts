@@ -59,16 +59,29 @@ export async function prismaTeamRead(guildId: string, teamId?: string, memberId?
 	}
 }
 
+export async function prismaTeamMemberUpdate(teamId: string, memberIds: User[]) {
+	const prisma = new PrismaClient();
+	await prisma.$connect();
+	await prisma.team.updateMany({
+		where: {
+			teamId: teamId
+		},
+		data: {
+			teamMembersId: memberIds.map((member) => member.id).toString()
+		}
+	});
+}
+
 export function parseUserId(client: SapphireClient, userIds: string) {
-    const userArray: User[] = [];
+	const userArray: User[] = [];
 	const userIdsArray = userIds.split(',');
 	userIdsArray.forEach((userId) => {
 		const user = client.users.cache.get(userId);
 		if (user) {
 			userArray.push(user);
 		}
-    });
-    return userArray;
+	});
+	return userArray;
 }
 
 export async function prismaGuildConfCreate(
