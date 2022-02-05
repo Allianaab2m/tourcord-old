@@ -1,6 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+import type { SapphireClient } from '@sapphire/framework';
 import { send } from '@sapphire/plugin-editable-commands';
-import { Message, MessageEmbed } from 'discord.js';
+import { Message, MessageEmbed, User } from 'discord.js';
 import { RandomLoadingMessage } from './constants';
 import type { Team } from './team';
 
@@ -39,6 +40,35 @@ export async function prismaTeamCreate(guildId: string, team: Team): Promise<voi
 		}
 	});
 	await prisma.$disconnect();
+}
+
+export async function prismaTeamRead(guildId: string, teamId?: string, memberId?: string) {
+	const prisma = new PrismaClient();
+	await prisma.$connect();
+	const guild = await prisma.team.findMany({
+		where: {
+			guildId: guildId
+		}
+	});
+	if (teamId) {
+		return guild.find((team) => team.teamId === teamId);
+	} else if (memberId) {
+		return guild.find((team) => team.teamMembersId.includes(memberId));
+	} else {
+		return undefined;
+	}
+}
+
+export function parseUserId(client: SapphireClient, userIds: string) {
+    const userArray: User[] = [];
+	const userIdsArray = userIds.split(',');
+	userIdsArray.forEach((userId) => {
+		const user = client.users.cache.get(userId);
+		if (user) {
+			userArray.push(user);
+		}
+    });
+    return userArray;
 }
 
 export async function prismaGuildConfCreate(
