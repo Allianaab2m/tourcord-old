@@ -2,8 +2,7 @@ import './lib/setup';
 import { LogLevel, SapphireClient } from '@sapphire/framework';
 
 const client = new SapphireClient({
-	defaultPrefix: 'dr!',
-	regexPrefix: /^(hey +)?bot[,! ]/i,
+	defaultPrefix: 'tc!',
 	caseInsensitiveCommands: true,
 	logger: {
 		level: LogLevel.Debug
@@ -19,7 +18,8 @@ const client = new SapphireClient({
 		'GUILD_MESSAGE_REACTIONS',
 		'DIRECT_MESSAGES',
 		'DIRECT_MESSAGE_REACTIONS'
-	]
+	],
+	partials: ['CHANNEL', 'GUILD_MEMBER', 'MESSAGE', 'REACTION', 'USER']
 });
 
 const main = async () => {

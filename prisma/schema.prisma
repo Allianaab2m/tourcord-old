@@ -1,0 +1,37 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model Team {
+    id                Int    @id @default(autoincrement())
+    guildId           String @db.VarChar(18)
+    teamName          String @db.VarChar(32)
+    teamId            String @db.VarChar(6)
+    roleId            String @db.VarChar(18)
+    categoryChannelId String @db.VarChar(18)
+    textChannelId     String @db.VarChar(18)
+    voiceChannelId    String @db.VarChar(18)
+    teamMembersId     String
+
+    @@map("team")
+}
+
+model GuildConf {
+    id             Int     @id @default(autoincrement())
+    guildId        String  @unique @db.VarChar(18)
+    init           Boolean @default(false) @db.TinyInt()
+    maxTeamMembers Int     @default(5) @db.Int()
+    maxEntryTeams  Int     @default(64) @db.Int()
+    memberRoleId   String  @default("") @db.VarChar(18)
+    adminRoleId    String  @default("") @db.VarChar(18)
+
+    @@map("guild")
+}
