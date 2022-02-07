@@ -38,6 +38,19 @@ export class UserCommand extends SubCommandPluginCommand {
 
 		// チームメンバーに追加
 		const teamUserArray = parseUserId(message.client, inviteTeam.teamMembersId);
+		if (teamUserArray.includes(message.author)) {
+			const errEmbed = new MessageEmbed().setColor('#ff0000').setTitle('エラー').setDescription('既にこのチームに参加しています。');
+			return message.reply({ embeds: [errEmbed] });
+		} else if (teamUserArray.length >= inviteGuildConf.maxTeamMembers) {
+			return message.reply('チームに参加できる人数を超えています。');
+		} else if (inviteGuild.members.cache.get(message.author.id)?.roles.cache.has(inviteGuildConf.memberRoleId)) {
+			const errEmbed = new MessageEmbed()
+				.setColor('#ff0000')
+				.setTitle('エラー')
+				.setDescription('既にこのチーム，もしくは他のチームに参加しています。');
+			return message.reply({ embeds: [errEmbed] });
+		}
+
 		teamUserArray.push(message.author);
 		await prismaTeamMemberUpdate(inviteTeam.teamId, teamUserArray);
 
